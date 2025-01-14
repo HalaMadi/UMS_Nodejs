@@ -1,9 +1,9 @@
 import { DataTypes } from "sequelize";
-import { sequelize } from "../connection";
+import { sequelize } from "../connection.js";
 
 
 
-const UserModel = sequelize({force:true}).define('User', {
+const UserModel = sequelize.define('User', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
