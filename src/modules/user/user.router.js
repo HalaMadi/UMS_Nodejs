@@ -1,4 +1,5 @@
 import { Router } from "express"
+import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import UserModel from "../../../DB/Model/user.model.js";
 
@@ -12,7 +13,7 @@ router.get('/users', async (req, res) => {
 })
 
 // Add user
-router.post('/users', async (req, res) => {
+router.post('/register', async (req, res) => {
     const { userName, email, password } = req.body;
     const hashedPassword = bcrypt.hashSync(password, 8);
     await UserModel.create({ userName, email, password: hashedPassword })
@@ -20,7 +21,7 @@ router.post('/users', async (req, res) => {
 })
 
 // /* Log In Endpoint */
-router.post('/users', async (req, res) => {
+router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     const user = await UserModel.findOne({
         where: { email: email }
@@ -32,6 +33,7 @@ router.post('/users', async (req, res) => {
     if(checkPassword==false){
         return res.status(400).json({message:'Invalid Password'})
     }
-    return res.status(200).json({message:"Success"})
+    const token=jwt.sign({id:user.id,name:user.userName},'HalaMadi')
+    return res.status(200).json({message:"Success",token})
 })
 export default router
