@@ -5,7 +5,7 @@ const app = express();
 app.use(express.json())
 connectDB();
 
-app.use(userRouter)
+app.use('/users',userRouter)
 app.listen(3000,()=>{
     console.log("Server Is Running... 3000");
     
