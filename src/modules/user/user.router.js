@@ -1,5 +1,6 @@
 import { Router } from "express"
 import UserModel from "../../../DB/Model/user.model.js";
+import jwt from 'jsonwebtoken'
 
 const router = Router();
 
@@ -13,6 +14,13 @@ router.get('/', async (req, res) => {
 // delete User 
 router.delete('/:id', async (req, res) => {
     const { id } = req.params;
+    const {token}=req.headers;
+ 
+    const decode=jwt.verify(token,'HalaMadi');
+
+    if(decode.role !='admin'){
+return res.status(400).json({message:'Not authorized'})
+    }
     const user = await UserModel.findByPk(id)
     if (!user) {
         return res.status(404).json({ message: 'User not found' })
