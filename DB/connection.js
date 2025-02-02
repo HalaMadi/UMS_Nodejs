@@ -7,9 +7,7 @@ export const sequelize = new Sequelize('ums', 'root', '', {
 export const connectDB = () => {
     sequelize.sync().then(() => {
         console.log('Database connect successfully');
-
     }).catch(error => {
         console.log('Unable to connect... ' + error);
-
     })
 }

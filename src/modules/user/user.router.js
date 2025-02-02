@@ -17,17 +17,21 @@ router.get('/', auth(), async (req, res) => {
 })
 // delete User 
 router.delete('/:id', auth(), async (req, res) => {
-    const { id } = req.params;
+    try {
 
-    const user = await UserModel.findByPk(id)
-    if (!user) {
-        return res.status(404).json({ message: 'User not found' })
-    }
-    await UserModel.destroy({
-        where: {
-            id
+        const { id } = req.params;
+        const user = await UserModel.findByPk(id)
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' })
         }
-    })
-    return res.status(200).json({ message: "User deleted Successfully" })
+        await UserModel.destroy({
+            where: {
+                id
+            }
+        })
+        return res.status(200).json({ message: "User deleted Successfully" })
+    } catch (error) {
+        return res.status(500).json({ message: 'Server Error', error })
+    }
 })
 export default router
