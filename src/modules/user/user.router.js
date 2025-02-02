@@ -18,7 +18,6 @@ router.get('/', auth(), async (req, res) => {
 // delete User 
 router.delete('/:id', auth(), async (req, res) => {
     try {
-
         const { id } = req.params;
         const user = await UserModel.findByPk(id)
         if (!user) {
