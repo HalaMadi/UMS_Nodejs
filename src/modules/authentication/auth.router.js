@@ -13,8 +13,10 @@ router.post('/register', validation(registerSchema), async (req, res) => {
         const { userName, email, password } = req.body;
         const hashedPassword = bcrypt.hashSync(password, 8);
         await UserModel.create({ userName, email, password: hashedPassword });
-    
-        await sendEmail()
+        const html = `<div>
+        <h1>Hi ${userName}♥️</h1>
+        </div>`;
+        await sendEmail(email, "Hi there , this is Hala 👻", html)
         return res.status(201).json({ message: 'User Added Successfully' })
     } catch (error) {
         return res.status(500).json({ message: 'Server Error', error: error.stack })

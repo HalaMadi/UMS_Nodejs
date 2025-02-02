@@ -1,6 +1,8 @@
 import { Router } from "express"
 import UserModel from "../../../DB/Model/user.model.js";
 import auth from "../../middleware/auth.js";
+import uploadFile from "../../utils/multer.js";
+import cloudinary from "../../utils/cloudinary.js";
 
 const router = Router();
 
@@ -32,5 +34,18 @@ router.delete('/:id', auth(), async (req, res) => {
     } catch (error) {
         return res.status(500).json({ message: 'Server Error', error })
     }
+})
+// Upload file
+router.put('/:id',uploadFile().single('image'),async(req,res)=>{
+    const { id } = req.params;
+    const user = await UserModel.findByPk(id)
+    if (!user) {
+        return res.status(404).json({ message: 'User not found' })
+    }
+    const {secure_url}=await cloudinary.uploader.upload(req.file.path);
+    user.profilePic=secure_url;
+    await user.save();
+
+    return res.status(200).json({message:'success'})
 })
 export default router

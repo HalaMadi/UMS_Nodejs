@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer'
 
-export async function sendEmail  (){
+export async function sendEmail  (to,subject,html){
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -14,10 +14,10 @@ export async function sendEmail  (){
 
     const info = await transporter.sendMail({
         from: '"Hi there , this is Hala 👻" <halamadi75@gmail.com>', // sender address
-        to: "halamadi75@gmail.com", // list of receivers
-        subject: "Hello ✔",
+        to, // list of receivers
+        subject,
         text: "Hello world?", 
-        html: "<b>Hello world?</b>", 
+        html, 
     });
 
 }
