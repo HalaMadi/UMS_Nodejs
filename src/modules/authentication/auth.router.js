@@ -3,16 +3,13 @@ import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import UserModel from "../../../DB/Model/user.model.js";
 import { loginSchema, registerSchema } from "./auth.validation.js";
+import validation from "../../middleware/validation.js";
 const router = Router();
 
 // /* Register Endpoint */
-router.post('/register', async (req, res) => {
+router.post('/register',validation(registerSchema), async (req, res) => {
     try {
         const { userName, email, password } = req.body;
-        const validate = registerSchema.validate({ userName, email, password }, { abortEarly: false })
-        if (validate.error) {
-            return res.status(400).json({ message: 'Validation error', error: validate.error })
-        }
         const hashedPassword = bcrypt.hashSync(password, 8);
         await UserModel.create({ userName, email, password: hashedPassword })
         return res.status(201).json({ message: 'User Added Successfully' })
@@ -22,13 +19,9 @@ router.post('/register', async (req, res) => {
 })
 
 // /* Log In Endpoint */
-router.post('/login', async (req, res) => {
+router.post('/login',validation(loginSchema), async (req, res) => {
     try {
         const { email, password } = req.body;
-        const validate = loginSchema.validate({ email, password }, { abortEarly: false })
-        if (validate.error) {
-            return res.status(400).json({ message: 'Validation error', error: validate.error })
-        }
         const user = await UserModel.findOne({
             where: { email: email }
         })
