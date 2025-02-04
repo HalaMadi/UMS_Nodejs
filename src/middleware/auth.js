@@ -8,6 +8,7 @@ const auth = () => {
             if (decode.role != 'admin') {
                 return res.status(400).json({ message: 'Not authorized' })
             }
+            req.id=decode.id;
             next();
         } catch (error) {
             return res.status(500).json({ message: 'Server Error', error })

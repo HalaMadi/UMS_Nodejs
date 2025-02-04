@@ -1,10 +1,10 @@
 import { Router } from "express"
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
-import UserModel from "../../../DB/Model/user.model.js";
 import { loginSchema, registerSchema } from "./auth.validation.js";
 import validation from "../../middleware/validation.js";
 import { sendEmail } from "../../utils/sendEmail.js";
+import UserModel from "../../../DB/model/user.model.js";
 const router = Router();
 
 // /* Register Endpoint */

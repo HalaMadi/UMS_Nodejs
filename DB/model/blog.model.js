@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../connection.js";
+import UserModel from "./user.model.js";
 
 
 
@@ -16,4 +17,6 @@ const BlogModel=sequelize.define('Blog',{
         }
     
 })
+UserModel.hasMany(BlogModel);
+BlogModel.belongsTo(UserModel)
 export default BlogModel;
