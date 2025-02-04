@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken'
 
 const auth = () => {
     return (req, res, next) => {
-        try {
             const { token } = req.headers;
             const decode = jwt.verify(token, 'HalaMadi');
             if (decode.role != 'admin') {
@@ -10,9 +9,6 @@ const auth = () => {
             }
             req.id=decode.id;
             next();
-        } catch (error) {
-            return res.status(500).json({ message: 'Server Error', error })
-        }
     }
 }
 export default auth
