@@ -19,11 +19,11 @@ export const LogIn = async (req, res) => {
         where: { email: email }
     })
     if (user == null) {
-        return res.status(404).json({ message: 'Invalid email' })
+        return next(new AppError('User not fund', 404))
     }
     const checkPassword = await bcrypt.compareSync(password, user.password);
     if (checkPassword == false) {
-        return res.status(400).json({ message: 'Invalid Password' })
+        return next(new AppError('User not fund', 400))
     }
     const token = jwt.sign({ id: user.id, name: user.userName, role: user.role }, 'HalaMadi')
     return res.status(200).json({ message: "Success", token })
