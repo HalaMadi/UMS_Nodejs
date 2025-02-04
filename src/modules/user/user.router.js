@@ -1,8 +1,8 @@
 import { Router } from "express"
-import UserModel from "../../../DB/Model/user.model.js";
 import auth from "../../middleware/auth.js";
 import uploadFile from "../../utils/multer.js";
 import cloudinary from "../../utils/cloudinary.js";
+import UserModel from "../../../DB/model/user.model.js";
 
 const router = Router();
 
